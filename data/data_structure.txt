@@ -1,0 +1,7 @@
+hymenoptera_data/
+├── train/
+│   ├── ants/
+│   └── bees/
+└── val/
+    ├── ants/
+    └── bees/
