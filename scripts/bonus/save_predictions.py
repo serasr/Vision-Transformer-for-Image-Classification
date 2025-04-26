@@ -40,3 +40,14 @@ def save_predictions(model, dataloader, device, class_names, save_dir="results/"
                 plt.savefig(save_path)
                 plt.close()
 
+
+
+save_predictions(
+    model=vit_model,
+    dataloader=test_dataloader,
+    device=device,
+    class_names=["ants", "bees"],
+    save_dir="results/",
+    num_images=10
+)
+
