@@ -1,0 +1,87 @@
+# Insights from Training Vision Transformer (ViT) on Hymenoptera Dataset
+
+---
+
+## 1. Training Overview
+
+- **Model Used:** Vision Transformer (ViT-B/16)
+- **Pretrained Weights:** ImageNet-21k pretraining
+- **Dataset:** Hymenoptera (ants vs bees)
+- **Image Size:** 224 x 224
+- **Optimizer:** Adam
+- **Learning Rate:** 1e-4
+- **Epochs:** 18
+- **Loss Function:** CrossEntropyLoss
+- **Augmentations:** Resize, RandomHorizontalFlip, RandomRotation, ColorJitter
+
+---
+
+## 2. Key Results
+
+| Metric                  | Value    |
+|--------------------------|----------|
+| Final Train Accuracy     | ~99%     |
+| Final Validation Accuracy| ~96%     |
+| Final Macro F1 Score     | ~0.95    |
+| Best Validation Epoch    | ~10-12   |
+
+---
+
+## 3. Observations
+
+- **Convergence:**  
+  The ViT model converged steadily within the first 10 epochs and started stabilizing around 15 epochs. No severe overfitting was observed, likely due to sufficient augmentation and dropout.
+
+- **Performance:**  
+  Both ants and bees were classified with high precision and recall, demonstrating that ViT is capable of learning fine-grained texture differences even with small datasets.
+
+- **Loss Curves:**  
+  Validation loss showed mild fluctuations beyond 12 epochs, which could be attributed to the smaller size of the dataset, leading to some variance between mini-batches.
+
+- **Sharp Drops:**  
+  Some sharp drops observed in validation accuracy/F1 between epochs could be due to batch-to-batch variations, especially with a limited number of validation samples.
+
+---
+
+## 4. Strengths of Vision Transformer
+
+- **Patch-based Processing:**  
+  Unlike CNNs which use convolution filters, ViT treats images as a sequence of patches, enabling it to capture more global relationships across the image.
+
+- **Better Generalization:**  
+  Transformers are generally better at generalizing across diverse visual features without heavy reliance on local pixel statistics.
+
+- **Scalability:**  
+  Performance tends to improve further when scaled to larger datasets, which is ideal for real-world applications.
+
+---
+
+## 5. Limitations
+
+- **Data Hunger:**  
+  ViT models need a lot of data to truly outperform CNNs. On very small datasets, CNNs may still perform better without extensive augmentation or pretraining.
+
+- **Training Time:**  
+  Transformers are computationally heavier compared to light-weight CNN models, especially if trained from scratch.
+
+---
+
+## 6. Future Improvements
+
+- **Fine-tuning:**  
+  Initially freeze transformer layers and train only the classification head, then gradually unfreeze layers for full fine-tuning.
+
+- **More Augmentation:**  
+  Adding CutMix, MixUp, or RandAugment could improve generalization further.
+
+- **Attention Visualization:**  
+  Visualizing attention maps could help understand which parts of the image the ViT is focusing on for classification.
+
+---
+
+## 7. Final Remark
+
+Even with a relatively small ants and bees dataset, the Vision Transformer achieved a strong validation accuracy (~96%).  
+This demonstrates ViT’s strong feature extraction capabilities when properly fine-tuned even on small image classification tasks.
+
+---
