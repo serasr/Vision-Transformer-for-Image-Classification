@@ -1,6 +1,6 @@
 # Vision Transformer (ViT) - Hymenoptera Classification
 
-This project trains a Vision Transformer (ViT) model for binary image classification: ants vs bees!
+This project fine-tunes a **Vision Transformer (ViT-B/16)** model for classifying images into two classes: **ants** and **bees** using the *hymenoptera dataset*.  
 
 ---
 
@@ -27,19 +27,27 @@ pip install -r requirements.txt
 Clone the repository, install the dependencies, download the pretrained weights, set up the dataset, and run the training script.
 
 ```bash
-git clone https://github.com/your-username/ViT-Hymenoptera-Classification.git
+git clone https://github.com/serasr/Vision-Transformer-for-Image-Classification.git
 
-cd ViT-Hymenoptera-Classification
+cd Vision-Transformer-for-Image-Classification/
 
-mkdir -p checkpoint
-
-wget https://storage.googleapis.com/vit_models/imagenet21k/ViT-B_16.npz -P checkpoint/
+bash scripts/setup_env.sh
 
 # (Prepare the hymenoptera_data folder structure with ants/ and bees/ inside train/ and val/ folders)
 
-python src/train.py
+python scripts/train.py
+
+# Optional
+python scripts/save_predictions.py 
 
 ```
+### Example Predictions
+<p align="center">
+  <img src="results/prediction_1.png" width="200"/>
+  <img src="results/prediction_10.png" width="200"/>
+  <img src="results/prediction_3.png" width="200"/>
+  <img src="results/prediction_5.png" width="200"/>
+</p>
 
 ## Contributor
 
@@ -48,4 +56,9 @@ Individual work by author
 ## Data Source
 
 Kaggle
+
+## Acknowledgements
+
+Adapted the base Vision Transformer code from the open-source repository:
+ jeonsworld/ViT-pytorch
 
