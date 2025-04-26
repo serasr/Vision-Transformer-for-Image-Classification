@@ -1,0 +1,38 @@
+# Python bytecode files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# IPython and Colab checkpoints
+.ipynb_checkpoints/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Environment folders
+env/
+venv/
+ENV/
+.venv/
+.idea/
+.vscode/
+
+# Model weights, checkpoints
+*.pth
+*.ckpt
+*.npz
+
+# TensorBoard and logs
+runs/
+logs/
+
+# Temporary files
+*.tmp
+*.log
+
+# Google Colab Drive mounts (if accidentally saved)
+drive/
+
+# Hidden folders/files
+.hidden/
