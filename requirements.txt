@@ -1,0 +1,14 @@
+# If using Colab, you typically don't need to install the below manually:
+# But for local machines:
+# apex (optional, for mixed precision training, can skip if not needed)
+torch>=2.0.0
+torchvision>=0.15.0
+numpy
+tqdm
+matplotlib
+scikit-learn
+pillow
+requests
+seaborn
+
+
