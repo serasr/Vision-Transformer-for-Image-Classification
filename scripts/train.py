@@ -10,11 +10,15 @@ from tqdm.auto import tqdm
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
 def train_model(model, train_loader, val_loader, optimizer, loss_fn, device, epochs=10):
-    results = {"train_loss": [], "train_acc": [], "val_acc": []}
+    results = {
+        "train_loss": [], "train_acc": [], "val_acc": [],
+        "val_precision": [], "val_recall": [], "val_f1": []
+    }
+
+    print("Training started")
 
     model.to(device)
     model.train()
-
     for param in model.parameters():
         param.requires_grad = True
 
@@ -24,9 +28,11 @@ def train_model(model, train_loader, val_loader, optimizer, loss_fn, device, epo
 
         for inputs, labels in train_loader:
             inputs, labels = inputs.to(device), labels.to(device)
+
             outputs = model(inputs)
             if isinstance(outputs, tuple):
                 outputs = outputs[0]
+
             loss = loss_fn(outputs, labels)
 
             optimizer.zero_grad()
@@ -46,6 +52,8 @@ def train_model(model, train_loader, val_loader, optimizer, loss_fn, device, epo
         # Validation
         model.eval()
         val_correct, val_total = 0, 0
+        all_preds = []
+        all_labels = []
 
         with torch.no_grad():
             for inputs, labels in val_loader:
@@ -54,13 +62,26 @@ def train_model(model, train_loader, val_loader, optimizer, loss_fn, device, epo
                 if isinstance(outputs, tuple):
                     outputs = outputs[0]
                 _, preds = torch.max(outputs, dim=1)
+
                 val_correct += (preds == labels).sum().item()
                 val_total += labels.size(0)
+
+                all_preds.extend(preds.cpu().numpy())
+                all_labels.extend(labels.cpu().numpy())
 
         val_acc = val_correct / val_total
         results["val_acc"].append(val_acc)
 
-        print(f"[Epoch {epoch+1}] Train Loss: {avg_loss:.4f} | Train Acc: {train_acc:.4f} | Val Acc: {val_acc:.4f}")
+        # Compute F1, Precision, Recall
+        prec, rec, f1, _ = precision_recall_fscore_support(
+            all_labels, all_preds, average="macro", zero_division=0
+        )
+
+        results["val_precision"].append(prec)
+        results["val_recall"].append(rec)
+        results["val_f1"].append(f1)
+
+        print(f"[Epoch {epoch+1}] Loss: {avg_loss:.4f} | Train Acc: {train_acc:.4f} | Val Acc: {val_acc:.4f} | Val F1: {f1:.4f}")
 
     return results
 
